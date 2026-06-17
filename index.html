@@ -12,6 +12,10 @@
     --surface: #111111;
     --surface2: #1a1a1a;
     --border: #222222;
+    --accent-jai: #c8f135;
+    --accent-jai-dim: rgba(200, 241, 53, 0.12);
+    --accent-fenali: #d4a8ff;
+    --accent-fenali-dim: rgba(212, 168, 255, 0.12);
     --accent: #c8f135;
     --accent-dim: rgba(200, 241, 53, 0.12);
     --text: #f0f0f0;
@@ -33,7 +37,7 @@
     margin: 0 auto;
   }
 
-  header { margin-bottom: 28px; }
+  header { margin-bottom: 24px; }
 
   .logo {
     font-family: 'Space Mono', monospace;
@@ -53,13 +57,51 @@
 
   h1 span { color: var(--accent); }
 
+  /* Who's logging */
+  .who-section { margin-bottom: 20px; }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 10px;
+  }
+
+  .who-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .who-btn {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .who-btn .who-icon { font-size: 24px; display: block; margin-bottom: 5px; }
+  .who-btn .who-name { font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: var(--muted2); }
+
+  .who-btn.active-jai { border-color: var(--accent-jai); background: var(--accent-jai-dim); }
+  .who-btn.active-jai .who-name { color: var(--accent-jai); }
+  .who-btn.active-fenali { border-color: var(--accent-fenali); background: var(--accent-fenali-dim); }
+  .who-btn.active-fenali .who-name { color: var(--accent-fenali); }
+
   /* Setup banner */
   .setup-banner {
     background: var(--surface);
     border: 1px solid #c8f13533;
     border-radius: 12px;
     padding: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
   .setup-banner.hidden { display: none; }
@@ -134,6 +176,7 @@
     border-radius: 10px;
     padding: 14px 12px;
     text-align: center;
+    transition: border-color 0.2s;
   }
 
   .stat-val {
@@ -153,15 +196,6 @@
   }
 
   /* Categories */
-  .section-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted2);
-    margin-bottom: 10px;
-  }
-
   .cat-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -183,8 +217,11 @@
 
   .cat-chip .icon { font-size: 20px; display: block; margin-bottom: 5px; }
   .cat-chip .name { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; color: var(--muted2); text-transform: uppercase; line-height: 1.3; }
-  .cat-chip.selected { border-color: var(--accent); background: var(--accent-dim); }
-  .cat-chip.selected .name { color: var(--accent); }
+
+  .cat-chip.selected-jai { border-color: var(--accent-jai); background: var(--accent-jai-dim); }
+  .cat-chip.selected-jai .name { color: var(--accent-jai); }
+  .cat-chip.selected-fenali { border-color: var(--accent-fenali); background: var(--accent-fenali-dim); }
+  .cat-chip.selected-fenali .name { color: var(--accent-fenali); }
 
   /* Number inputs */
   .number-row {
@@ -221,9 +258,6 @@
 
   .number-box input:focus { border-color: var(--accent); }
 
-  /* Notes */
-  .notes-wrap { margin-bottom: 16px; }
-
   textarea {
     width: 100%;
     background: var(--surface);
@@ -236,16 +270,16 @@
     resize: none;
     min-height: 70px;
     outline: none;
+    margin-bottom: 16px;
     transition: border-color 0.2s;
   }
 
   textarea:focus { border-color: var(--accent); }
   textarea::placeholder { color: var(--muted); }
 
-  /* Log button */
   .log-btn {
     width: 100%;
-    background: var(--accent);
+    background: var(--accent-jai);
     color: #0a0a0a;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 15px;
@@ -255,14 +289,13 @@
     border-radius: 10px;
     padding: 16px;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
+    transition: background 0.2s, opacity 0.2s, transform 0.1s;
     margin-bottom: 12px;
   }
 
   .log-btn:active { transform: scale(0.98); }
   .log-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* Status */
   .status {
     font-size: 13px;
     padding: 10px 14px;
@@ -274,8 +307,32 @@
   .status.error { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,107,107,0.3); display: block; }
   .status.loading { background: var(--surface); color: var(--muted2); border: 1px solid var(--border); display: block; }
 
-  /* Log */
   .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* Log filter tabs */
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .filter-tab {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-tab.active-all { border-color: var(--text); color: var(--text); }
+  .filter-tab.active-jai { border-color: var(--accent-jai); color: var(--accent-jai); background: var(--accent-jai-dim); }
+  .filter-tab.active-fenali { border-color: var(--accent-fenali); color: var(--accent-fenali); background: var(--accent-fenali-dim); }
 
   .log-entry {
     background: var(--surface);
@@ -285,6 +342,9 @@
     margin-bottom: 8px;
   }
 
+  .log-entry.entry-jai { border-left: 3px solid var(--accent-jai); }
+  .log-entry.entry-fenali { border-left: 3px solid var(--accent-fenali); }
+
   .entry-header {
     display: flex;
     justify-content: space-between;
@@ -292,56 +352,40 @@
     margin-bottom: 8px;
   }
 
+  .entry-who {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .entry-who.jai { color: var(--accent-jai); }
+  .entry-who.fenali { color: var(--accent-fenali); }
+
   .entry-date {
     font-family: 'Space Mono', monospace;
     font-size: 10px;
     color: var(--muted2);
   }
 
-  .entry-day {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .entry-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
+  .entry-tags { display: flex; flex-wrap: wrap; gap: 5px; }
 
   .tag {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    background: var(--accent-dim);
-    color: var(--accent);
     border-radius: 4px;
     padding: 3px 7px;
   }
 
-  .tag.number {
-    background: rgba(255,255,255,0.05);
-    color: var(--muted2);
-  }
+  .tag.jai { background: var(--accent-jai-dim); color: var(--accent-jai); }
+  .tag.fenali { background: var(--accent-fenali-dim); color: var(--accent-fenali); }
+  .tag.number { background: rgba(255,255,255,0.05); color: var(--muted2); }
 
-  .entry-notes {
-    font-size: 12px;
-    color: var(--muted2);
-    margin-top: 7px;
-    line-height: 1.4;
-  }
+  .entry-notes { font-size: 12px; color: var(--muted2); margin-top: 7px; line-height: 1.4; }
 
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; }
   .empty-icon { font-size: 36px; display: block; margin-bottom: 10px; }
 
   .spinner {
@@ -364,13 +408,28 @@
   <h1>New Energy.<br><span>New Body.</span></h1>
 </header>
 
+<!-- Who's logging -->
+<div class="who-section">
+  <div class="section-label">Who's logging?</div>
+  <div class="who-toggle">
+    <div class="who-btn active-jai" id="btnJai" onclick="selectWho('Jai')">
+      <span class="who-icon">💪</span>
+      <span class="who-name">Jai</span>
+    </div>
+    <div class="who-btn" id="btnFenali" onclick="selectWho('Fenali')">
+      <span class="who-icon">🌸</span>
+      <span class="who-name">Fenali</span>
+    </div>
+  </div>
+</div>
+
 <!-- Setup Banner -->
 <div class="setup-banner" id="setupBanner">
   <div class="setup-title">⚡ One-time setup needed</div>
   <div class="setup-step" data-n="1">In your Google Sheet → Extensions → Apps Script</div>
-  <div class="setup-step" data-n="2">Paste the Apps Script code Claude gave you → Save</div>
-  <div class="setup-step" data-n="3">Click Deploy → New deployment → Web app → Anyone → Deploy</div>
-  <div class="setup-step" data-n="4">Copy the Web App URL and paste it below</div>
+  <div class="setup-step" data-n="2">Paste the v3 Apps Script code → Save</div>
+  <div class="setup-step" data-n="3">Deploy → Manage deployments → New version → Deploy</div>
+  <div class="setup-step" data-n="4">Paste your Web App URL below</div>
   <div class="url-input-wrap">
     <input class="url-input" id="scriptUrl" placeholder="https://script.google.com/macros/s/..." />
     <button class="save-url-btn" onclick="saveUrl()">SAVE</button>
@@ -402,12 +461,12 @@
   <div class="cat-chip" data-cat="Legs"><span class="icon">🦵</span><span class="name">Legs</span></div>
   <div class="cat-chip" data-cat="Cardio"><span class="icon">🏃</span><span class="name">Cardio</span></div>
   <div class="cat-chip" data-cat="HIIT"><span class="icon">⚡</span><span class="name">HIIT</span></div>
-  <div class="cat-chip" data-cat="Push-ups" id="chipPushups"><span class="icon">⬇️</span><span class="name">Push-ups</span></div>
-  <div class="cat-chip" data-cat="Burpees" id="chipBurpees"><span class="icon">🔄</span><span class="name">Burpees</span></div>
+  <div class="cat-chip" data-cat="Push-ups"><span class="icon">⬇️</span><span class="name">Push-ups</span></div>
+  <div class="cat-chip" data-cat="Burpees"><span class="icon">🔄</span><span class="name">Burpees</span></div>
   <div class="cat-chip" data-cat="Sauna"><span class="icon">🧖</span><span class="name">Sauna</span></div>
 </div>
 
-<!-- Number inputs (show when push-ups/burpees selected) -->
+<!-- Number inputs -->
 <div class="number-row">
   <div class="number-box" id="pushupsBox">
     <label>Push-up count</label>
@@ -419,34 +478,59 @@
   </div>
 </div>
 
-<!-- Notes -->
-<div class="notes-wrap">
-  <textarea id="notesInput" placeholder="Optional notes — weights, how you felt, PRs..."></textarea>
-</div>
+<textarea id="notesInput" placeholder="Optional notes — weights, how you felt, PRs..."></textarea>
 
 <button class="log-btn" id="logBtn" onclick="logSession()">LOG SESSION →</button>
 <div class="status" id="statusMsg"></div>
 
 <hr class="divider">
 <div class="section-label">Session Log</div>
+
+<!-- Filter tabs -->
+<div class="filter-tabs">
+  <div class="filter-tab active-all" id="tabAll" onclick="setFilter('all')">All</div>
+  <div class="filter-tab" id="tabJai" onclick="setFilter('Jai')">Jai</div>
+  <div class="filter-tab" id="tabFenali" onclick="setFilter('Fenali')">Fenali</div>
+</div>
+
 <div id="logList"></div>
 
 <script>
-  const STORAGE_KEY = 'gymSessions_v2';
+  const STORAGE_KEY = 'gymSessions_v3';
   const URL_KEY = 'gymScriptUrl';
 
   let selectedCats = new Set();
   let sessions = [];
   let scriptUrl = localStorage.getItem(URL_KEY) || '';
+  let currentWho = 'Jai';
+  let currentFilter = 'all';
 
-  // Init
   function init() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) sessions = JSON.parse(saved);
     if (scriptUrl) document.getElementById('setupBanner').classList.add('hidden');
-    else document.getElementById('scriptUrl').value = scriptUrl;
-    renderAll();
     bindChips();
+    renderAll();
+  }
+
+  function selectWho(name) {
+    currentWho = name;
+    const isJai = name === 'Jai';
+    document.getElementById('btnJai').className = 'who-btn' + (isJai ? ' active-jai' : '');
+    document.getElementById('btnFenali').className = 'who-btn' + (!isJai ? ' active-fenali' : '');
+    document.getElementById('logBtn').style.background = isJai ? 'var(--accent-jai)' : 'var(--accent-fenali)';
+    // Reset category selections on switch
+    selectedCats.clear();
+    document.querySelectorAll('.cat-chip').forEach(c => c.className = 'cat-chip');
+    renderAll();
+  }
+
+  function setFilter(f) {
+    currentFilter = f;
+    document.getElementById('tabAll').className = 'filter-tab' + (f === 'all' ? ' active-all' : '');
+    document.getElementById('tabJai').className = 'filter-tab' + (f === 'Jai' ? ' active-jai' : '');
+    document.getElementById('tabFenali').className = 'filter-tab' + (f === 'Fenali' ? ' active-fenali' : '');
+    renderLog();
   }
 
   function saveUrl() {
@@ -458,21 +542,21 @@
     scriptUrl = val;
     localStorage.setItem(URL_KEY, scriptUrl);
     document.getElementById('setupBanner').classList.add('hidden');
-    setStatus('✅ Script URL saved! You\'re all set.', 'success');
+    setStatus('✅ Script URL saved!', 'success');
   }
 
   function bindChips() {
     document.querySelectorAll('.cat-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         const cat = chip.dataset.cat;
+        const selClass = currentWho === 'Jai' ? 'selected-jai' : 'selected-fenali';
         if (selectedCats.has(cat)) {
           selectedCats.delete(cat);
-          chip.classList.remove('selected');
+          chip.className = 'cat-chip';
         } else {
           selectedCats.add(cat);
-          chip.classList.add('selected');
+          chip.className = 'cat-chip ' + selClass;
         }
-        // Show/hide number inputs
         document.getElementById('pushupsBox').classList.toggle('visible', selectedCats.has('Push-ups'));
         document.getElementById('burpeesBox').classList.toggle('visible', selectedCats.has('Burpees'));
       });
@@ -493,11 +577,13 @@
     return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
-  function calcStreak() {
-    if (!sessions.length) return 0;
+  function calcStreak(name) {
+    const filtered = sessions.filter(s => !name || s.name === name);
+    if (!filtered.length) return 0;
+    const dates = [...new Set(filtered.map(s => new Date(s.ts).toDateString()))].reverse();
     const today = new Date().toDateString();
-    const dates = [...new Set(sessions.map(s => new Date(s.ts).toDateString()))].reverse();
-    if (dates[0] !== today && dates[0] !== new Date(Date.now() - 86400000).toDateString()) return 0;
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    if (dates[0] !== today && dates[0] !== yesterday) return 0;
     let streak = 1;
     for (let i = 1; i < dates.length; i++) {
       const a = new Date(dates[i-1]), b = new Date(dates[i]);
@@ -508,29 +594,37 @@
   }
 
   function renderAll() {
-    const totalPushups = sessions.reduce((sum, s) => sum + (parseInt(s.pushups) || 0), 0);
-    document.getElementById('statStreak').textContent = calcStreak();
-    document.getElementById('statTotal').textContent = sessions.length;
-    document.getElementById('statPushups').textContent = totalPushups;
+    const mySessions = sessions.filter(s => s.name === currentWho);
+    const myPushups = mySessions.reduce((sum, s) => sum + (parseInt(s.pushups) || 0), 0);
+    document.getElementById('statStreak').textContent = calcStreak(currentWho);
+    document.getElementById('statTotal').textContent = mySessions.length;
+    document.getElementById('statPushups').textContent = myPushups;
+    renderLog();
+  }
 
+  function renderLog() {
+    const filtered = currentFilter === 'all' ? sessions : sessions.filter(s => s.name === currentFilter);
     const list = document.getElementById('logList');
-    if (!sessions.length) {
+
+    if (!filtered.length) {
       list.innerHTML = '<div class="empty-state"><span class="empty-icon">🏆</span>No sessions yet. First rep starts now.</div>';
       return;
     }
 
-    list.innerHTML = [...sessions].reverse().slice(0, 15).map(s => {
+    list.innerHTML = [...filtered].reverse().slice(0, 20).map(s => {
       const d = new Date(s.ts);
-      const tags = s.categories.map(c => `<span class="tag">${c}</span>`).join('');
+      const isJai = s.name === 'Jai';
+      const tagClass = isJai ? 'jai' : 'fenali';
+      const tags = s.categories.map(c => `<span class="tag ${tagClass}">${c}</span>`).join('');
       const nums = [
         s.pushups ? `<span class="tag number">${s.pushups} push-ups</span>` : '',
         s.burpees ? `<span class="tag number">${s.burpees} burpees</span>` : ''
       ].join('');
       return `
-        <div class="log-entry">
+        <div class="log-entry entry-${tagClass}">
           <div class="entry-header">
-            <div class="entry-day">${getDayName(d)}</div>
-            <div class="entry-date">${formatDate(d)}</div>
+            <span class="entry-who ${tagClass}">${s.name} · ${getDayName(d)}</span>
+            <span class="entry-date">${formatDate(d)}</span>
           </div>
           <div class="entry-tags">${tags}${nums}</div>
           ${s.notes ? `<div class="entry-notes">${s.notes}</div>` : ''}
@@ -552,52 +646,34 @@
     const btn = document.getElementById('logBtn');
     btn.disabled = true;
 
-    const session = {
-      ts: Date.now(),
-      categories: cats,
-      pushups: pushups,
-      burpees: burpees,
-      notes: notes
-    };
-
-    // Save locally first
+    const session = { ts: Date.now(), name: currentWho, categories: cats, pushups, burpees, notes };
     sessions.push(session);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
     renderAll();
 
-    // Reset UI
+    // Reset
     selectedCats.clear();
-    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+    document.querySelectorAll('.cat-chip').forEach(c => c.className = 'cat-chip');
     document.getElementById('pushupsBox').classList.remove('visible');
     document.getElementById('burpeesBox').classList.remove('visible');
     document.getElementById('pushupsCount').value = '';
     document.getElementById('burpeesCount').value = '';
     document.getElementById('notesInput').value = '';
 
-    // Sync to sheet if URL is set
     if (scriptUrl) {
       setStatus('<span class="spinner"></span>Syncing to Google Sheets...', 'loading');
       try {
         const res = await fetch(scriptUrl, {
           method: 'POST',
-          body: JSON.stringify({
-            categories: cats,
-            pushups: pushups,
-            burpees: burpees,
-            notes: notes
-          })
+          body: JSON.stringify({ name: currentWho, categories: cats, pushups, burpees, notes })
         });
         const json = await res.json();
-        if (json.success) {
-          setStatus('✅ Logged + saved to your sheet!', 'success');
-        } else {
-          setStatus('✅ Saved locally. Sheet error: ' + (json.error || 'unknown'), 'error');
-        }
+        setStatus(json.success ? `✅ ${currentWho}'s session logged + saved to sheet!` : '✅ Saved locally. Sheet error: ' + (json.error || 'unknown'), json.success ? 'success' : 'error');
       } catch (err) {
         setStatus('✅ Saved locally. Sheet sync failed — check your URL.', 'error');
       }
     } else {
-      setStatus('✅ Session logged! (Add your Script URL above to sync to Sheets)', 'success');
+      setStatus(`✅ ${currentWho}'s session logged!`, 'success');
     }
 
     btn.disabled = false;
